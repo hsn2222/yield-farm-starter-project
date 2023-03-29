@@ -20,9 +20,10 @@ contract DappToken {
         address indexed _spender,
         uint256 _value
     );
-    
+
     // Solidityマッピングを使用して、トークンを所有する各アカウントの残高を保存
     mapping(address => uint256) public balanceOf;
+    // allowance[転送対象アドレスFrom][対象アドレスのトークンを転送処理可能なアドレス] = 転送可能トークン数
     mapping(address => mapping(address => uint256)) public allowance;
 
     constructor() public {
@@ -43,7 +44,7 @@ contract DappToken {
         emit Approval(msg.sender, _spender, _value);
         return true;
     }
-    
+
     // 別のアカウントからトークンを転送できるようにする
     function transferFrom(address _from, address _to, uint256 _value) public returns (bool success) {
         require(_value <= balanceOf[_from]);
